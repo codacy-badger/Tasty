@@ -1,0 +1,7 @@
+name: Tasty
+version: ${project.version}
+main: me.scifi.tasty.Tasty
+api-version: 1.13
+authors: [Scifi9902]
+description: Command Addon For zHCF
+website: pw.mizuledevelopment
